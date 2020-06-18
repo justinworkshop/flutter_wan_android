@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterwanandroid/event/event_login.dart';
+import 'package:flutterwanandroid/http/api.dart';
+import 'package:flutterwanandroid/manager/app_manager.dart';
+import 'package:flutterwanandroid/ui/page/page_collect.dart';
 import 'package:flutterwanandroid/ui/page/page_login.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -8,6 +12,19 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawerState extends State<MainDrawer> {
   String _userName;
+
+  @override
+  void initState() {
+    super.initState();
+    AppManager.eventBus.on<LoginEvent>().listen((event) {
+      setState(() {
+        _userName = event.userName;
+        AppManager.sharedPreference.setString(AppManager.account, _userName);
+      });
+    });
+
+    _userName = AppManager.sharedPreference.getString(AppManager.account);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +41,13 @@ class _MainDrawerState extends State<MainDrawer> {
             Padding(
               padding: EdgeInsets.only(bottom: 18.0),
               child: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/wan_android_logo.png"),
+                backgroundImage:
+                    AssetImage("assets/images/wan_android_logo.png"),
                 radius: 38.0,
               ),
             ),
             Text(
-              _userName ?? "请先登录",
+              _userName ?? "未登录",
               style: TextStyle(color: Colors.white, fontSize: 18.0),
             ),
           ],
@@ -40,7 +58,70 @@ class _MainDrawerState extends State<MainDrawer> {
     return ListView(
       padding: EdgeInsets.zero,
       children: <Widget>[
-        userHeader
+        userHeader,
+
+        /// 收藏
+        InkWell(
+          onTap: () {
+            _itemClick(CollectPage());
+          },
+          child: ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text(
+              "收藏列表",
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 8.0),
+          child: Divider(
+            color: Colors.grey,
+          ),
+        ),
+
+        /// 搜索
+        Offstage(
+          offstage: false,
+          child: InkWell(
+            onTap: () {},
+            child: ListTile(
+              leading: Icon(Icons.search),
+              title: Text(
+                "搜索",
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+          ),
+        ),
+
+        Padding(
+          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 8.0),
+          child: Divider(
+            color: Colors.grey,
+          ),
+        ),
+
+        /// 退出登陆
+        Offstage(
+          offstage: _userName == null,
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                AppManager.sharedPreference.setString(AppManager.account, null);
+                Api.clearCookie();
+                _userName = null;
+              });
+            },
+            child: ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text(
+                "退出登录",
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
