@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterwanandroid/ui/page/page_webview.dart';
 
 class ArticleItem extends StatelessWidget {
-
   final itemData;
 
   const ArticleItem(this.itemData);
@@ -10,16 +9,14 @@ class ArticleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Row author = new Row(
-      //水平线性布局
+      // 水平线性布局
       children: <Widget>[
-        //expanded 最后摆我，相当于linearlayout的weight权重
         new Expanded(
             child: Text.rich(TextSpan(children: [
-              TextSpan(text: "作者: "),
-              TextSpan(
-                  text: itemData['author'],
-                  style: new TextStyle(color: Theme.of(context).primaryColor))
-            ]))),
+          TextSpan(
+              text: itemData['chapterName'],
+              style: new TextStyle(color: Theme.of(context).primaryColor))
+        ]))),
         new Text(itemData['niceDate']) //时间
       ],
     );
@@ -30,10 +27,6 @@ class ArticleItem extends StatelessWidget {
       style: new TextStyle(fontSize: 16.0, color: Colors.black),
       textAlign: TextAlign.left,
     );
-
-    ///章节名
-    Text chapterName = new Text(itemData['chapterName'],
-        style: new TextStyle(color: Theme.of(context).primaryColor));
 
     Column column = new Column(
       //垂直线性布局
@@ -49,13 +42,12 @@ class ArticleItem extends StatelessWidget {
         ),
         new Padding(
           padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-          child: chapterName,
         ),
       ],
     );
 
     return new Card(
-      ///阴影效果
+      /// 阴影效果
       elevation: 4.0,
       child: InkWell(
         child: column,
@@ -72,4 +64,3 @@ class ArticleItem extends StatelessWidget {
     );
   }
 }
-

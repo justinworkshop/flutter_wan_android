@@ -119,7 +119,6 @@ class _ArticlePageState extends State<ArticlePage> {
 
   Widget _buildItem(int i) {
     if (i == 0) {
-      // Container：容器
       return new Container(
         height: MediaQuery.of(context).size.height * 0.3, // 屏幕高度的0.3
         child: _bannerView(),
@@ -147,7 +146,7 @@ class _ArticlePageState extends State<ArticlePage> {
     return list.isNotEmpty
         ? BannerView(
             list,
-            intervalDuration: const Duration(seconds: 3), // 控制轮播时间
+            intervalDuration: const Duration(seconds: 5),
           )
         : null;
   }
