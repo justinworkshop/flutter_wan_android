@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwanandroid/http/api.dart';
+import 'package:flutterwanandroid/manager/app_manager.dart';
 import 'package:toast/toast.dart';
 
 class WebsiteAddPage extends StatefulWidget {
@@ -8,7 +9,7 @@ class WebsiteAddPage extends StatefulWidget {
 }
 
 class _WebsiteAddPageState extends State<WebsiteAddPage> {
-  String _name;
+  String _title;
   String _link;
   final _formKey = GlobalKey<FormState>();
 
@@ -32,7 +33,7 @@ class _WebsiteAddPageState extends State<WebsiteAddPage> {
                 if (value.trim().isEmpty) {
                   return "请输入收藏名称";
                 }
-                _name = value;
+                _title = value;
               },
             ),
             TextFormField(
@@ -81,14 +82,15 @@ class _WebsiteAddPageState extends State<WebsiteAddPage> {
             );
           });
 
-      var result = await Api.collectWebsite(_name, _link);
+      var result = await Api.collectWebsite(_title,
+          AppManager.sharedPreference.getString(AppManager.account), _link);
       // Dialog dismiss
       Navigator.pop(context);
 
       if (result['errorCode'] != 0) {
         Toast.show(result['errorMsg'], context, gravity: Toast.CENTER);
       } else {
-        Navigator.pop(context);
+        Navigator.pop(context, result['data']);
       }
     }
   }

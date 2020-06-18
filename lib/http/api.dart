@@ -28,7 +28,7 @@ class Api {
   static const String COLLECT_INTERNAL_ARTICLE = "lg/collect/";
 
   // 收藏站外文章
-  static const String COLLECT_WEBSITE = "lg/collect/add/json";
+  static const String COLLECT_WEBSITE = "lg/collect/addtool/json";
 
   // 取消收藏
   static const String UN_COLLECT_ARTICLE = "lg/uncollect_originId/";
@@ -82,8 +82,9 @@ class Api {
         .request("$UN_COLLECT_ARTICLE$id/json", method: "post");
   }
 
-  static collectWebsite(String name, String link) async {
-    var formData = FormData.fromMap({"name": name, "link": link});
+  static collectWebsite(String title, String author, String link) async {
+    var formData =
+        FormData.fromMap({"name": title, /*"author": author,*/ "link": link});
     return await HttpManager.getInstance()
         .request(COLLECT_WEBSITE, data: formData, method: "post");
   }

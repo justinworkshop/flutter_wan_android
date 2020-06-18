@@ -55,8 +55,8 @@ class _WebsiteCollectPageState extends State<WebsiteCollectPage>
           ),
         ),
         Positioned(
-          bottom: 8.0,
-          right: 8.0,
+          bottom: 18.0,
+          right: 18.0,
           child: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: _addCollect,
@@ -71,12 +71,9 @@ class _WebsiteCollectPageState extends State<WebsiteCollectPage>
   bool get wantKeepAlive => true;
 
   _getCollects() async {
-    var result = Api.getWebSiteCollects();
-    print(result);
-    int code = result['errorCode'];
+    var result = await Api.getWebSiteCollects();
     if (result != null) {
-      print(">>>> _isHidden: $code");
-      var data = result["data"];
+      var data = result['data'];
       _collects.clear();
       _collects.addAll(data);
       _isHidden = true;
@@ -99,12 +96,15 @@ class _WebsiteCollectPageState extends State<WebsiteCollectPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            item['name'],
-            style: TextStyle(fontSize: 22.0),
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              item['name'],
+              style: TextStyle(fontSize: 22.0),
+            ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
             child: Text(
               item['link'],
               style: TextStyle(color: Theme.of(context).primaryColor),
@@ -118,9 +118,13 @@ class _WebsiteCollectPageState extends State<WebsiteCollectPage>
   _addCollect() async {
     var result = await Navigator.push(
         context, MaterialPageRoute(builder: (_) => WebsiteAddPage()));
+    print("addResult >>>> $result");
     if (result != null) {
       _collects.add(result);
     }
+    setState(() {
+
+    });
   }
 
   _delCollect(item) async {
@@ -133,7 +137,7 @@ class _WebsiteCollectPageState extends State<WebsiteCollectPage>
           );
         });
 
-    var result = await Api.unCollectArticle(item['id']);
+    var result = await Api.unCollectWebsite(item['id']);
     Navigator.pop(context);
 
     if (result['errorCode'] != 0) {
