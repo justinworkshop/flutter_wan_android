@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterwanandroid/http/api.dart';
 import 'package:flutterwanandroid/ui/page/page_webview.dart';
 
-import '../item_article.dart';
+import '../widget/item_article.dart';
 
 class ArticlePage extends StatefulWidget {
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterwanandroid/ui/page/page_login.dart';
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -45,11 +46,11 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   _itemClick(Widget page) {
-//    var dstPage = _userName == null ? LoginPage() : page;
-//    if (dstPage != null) {
-//      Navigator.push(context, new MaterialPageRoute(builder: (context) {
-//        return dstPage;
-//      }));
-//    }
+    var dstPage = _userName == null ? LoginPage() : page;
+    if (dstPage != null) {
+      Navigator.push(context, new MaterialPageRoute(builder: (context) {
+        return dstPage;
+      }));
+    }
   }
 }

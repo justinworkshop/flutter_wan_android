@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutterwanandroid/event/event_collect.dart';
 import 'package:flutterwanandroid/http/api.dart';
+import 'package:flutterwanandroid/manager/app_manager.dart';
+import 'package:flutterwanandroid/ui/page/page_login.dart';
 
 class WebViewPage extends StatefulWidget {
   final data;
@@ -69,25 +72,25 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   _doCollect() async {
-//    var result;
-//    bool isLogin = AppManager.isLogin();
-//    if (isLogin) {
-//      if (widget.data['collect']) {
-//        result = await Api.unCollectArticle(widget.data['id']);
-//      } else {
-//        result = await Api.collectArticle(widget.data['id']);
-//      }
-//    } else {
-//      Navigator.pushReplacement(
-//          context, MaterialPageRoute(builder: (_) => LoginPage()));
-//    }
-//
-//    if (result['errorCode'] == 0) {
-//      setState(() {
-//        widget.data['collect'] = !widget.data['collect'];
-//        AppManager.eventBus
-//            .fire(CollectEvent(widget.data['id'], widget.data['collect']));
-//      });
-//    }
+    var result;
+    bool isLogin = AppManager.isLogin();
+    if (isLogin) {
+      if (widget.data['collect']) {
+        result = await Api.unCollectArticle(widget.data['id']);
+      } else {
+        result = await Api.collectArticle(widget.data['id']);
+      }
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => LoginPage()));
+    }
+
+    if (result['errorCode'] == 0) {
+      setState(() {
+        widget.data['collect'] = !widget.data['collect'];
+        AppManager.eventBus
+            .fire(CollectEvent(widget.data['id'], widget.data['collect']));
+      });
+    }
   }
 }
