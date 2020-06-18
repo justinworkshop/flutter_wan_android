@@ -4,6 +4,7 @@ import 'package:flutterwanandroid/http/api.dart';
 import 'package:flutterwanandroid/manager/app_manager.dart';
 import 'package:flutterwanandroid/ui/page/page_collect.dart';
 import 'package:flutterwanandroid/ui/page/page_login.dart';
+import 'package:flutterwanandroid/ui/page/page_search.dart';
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -84,7 +85,9 @@ class _MainDrawerState extends State<MainDrawer> {
         Offstage(
           offstage: false,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              _itemClick(SearchPage());
+            },
             child: ListTile(
               leading: Icon(Icons.search),
               title: Text(

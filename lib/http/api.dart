@@ -34,6 +34,9 @@ class Api {
   static const String UN_COLLECT_ARTICLE = "lg/uncollect_originId/";
   static const String UN_COLLECT_WEBSITE = "lg/collect/deletetool/json";
 
+  // 搜索
+  static const String ARTICLE_SEARCH = "article/query/";
+
   static getArticleList(int page) async {
     return HttpManager.getInstance().request('$ARTICLE_LIST$page/json');
   }
@@ -93,5 +96,11 @@ class Api {
     var formData = FormData.fromMap({"id": id});
     return await HttpManager.getInstance()
         .request(UN_COLLECT_WEBSITE, data: formData, method: "post");
+  }
+
+  static articleSearch(int pageId, String k) async {
+    var formData = FormData.fromMap({"k": k});
+    return await HttpManager.getInstance()
+        .request("$ARTICLE_SEARCH$pageId/json", data: formData, method: "post");
   }
 }
