@@ -8,6 +8,9 @@ class Api {
   // 首页文章列表
   static const String ARTICLE_LIST = "article/list/";
 
+  // 置顶文章列表
+  static const String TOP_ARTICLE_LIST = "article/top/json";
+
   // Banner轮播图
   static const String BANNER = "banner/json";
 
@@ -102,5 +105,9 @@ class Api {
     var formData = FormData.fromMap({"k": k});
     return await HttpManager.getInstance()
         .request("$ARTICLE_SEARCH$pageId/json", data: formData, method: "post");
+  }
+
+  static getTopArticleList() async {
+    return await HttpManager.getInstance().request(TOP_ARTICLE_LIST);
   }
 }
