@@ -10,6 +10,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   ScrollController _controller = new ScrollController();
   bool _isHidden = false;
+  FocusNode _keyWordFocusNode = FocusNode();
   String _keyWord;
   List articles = [];
   int curPage = 0;
@@ -32,7 +33,12 @@ class _SearchPageState extends State<SearchPage> {
         _doSearch();
       }
     });
+  }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -40,36 +46,39 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          child: TextField(
+          padding: EdgeInsets.only(top: 10.0),
+          child: TextFormField(
+            focusNode: _keyWordFocusNode,
+            style: TextStyle(color: Colors.white),
             autofocus: true,
+            initialValue: _keyWord,
+            textInputAction: TextInputAction.search,
+            cursorColor: Colors.white,
+            onEditingComplete: _doSearch,
             decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white)),
+            ),
             onChanged: (String value) {
               if (value.trim().isEmpty) {
                 return "请输入关键词";
               }
-
               _keyWord = value;
             },
           ),
           height: 80,
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(233, 233, 233, 0.8),
-              borderRadius: BorderRadius.circular(30)),
         ),
         actions: <Widget>[
           InkWell(
-            child: Container(
-              height: 68,
-              width: 80,
-              child: Row(
-                children: <Widget>[Text('搜索')],
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                child: Text(
+                  '搜索',
+                ),
               ),
             ),
             onTap: () {
-              print(">>>>>> search");
               _doSearch();
             },
           )
@@ -88,6 +97,7 @@ class _SearchPageState extends State<SearchPage> {
             offstage: _isHidden,
             child: new RefreshIndicator(
                 child: ListView.builder(
+                  controller: _controller,
                   itemCount: articles.length, // +1是banner
                   itemBuilder: (context, i) => _buildItem(i),
                 ),
@@ -99,6 +109,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   _doSearch() async {
+    _keyWordFocusNode.unfocus();
+
     print("curPage: $curPage, Key: $_keyWord");
     var result = await Api.articleSearch(curPage, _keyWord);
     if (result != null) {
