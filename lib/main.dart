@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwanandroid/ui/page/page_article.dart';
 import 'package:flutterwanandroid/ui/page/page_article_top.dart';
+import 'package:flutterwanandroid/ui/page/page_search.dart';
 import 'package:flutterwanandroid/ui/widget/main_drawer.dart';
 
 import 'manager/app_manager.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    home: MyApp(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -25,30 +29,56 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: tabs.length,
-        child: Scaffold(
-          appBar: AppBar(
-              title: Padding(
-            padding: EdgeInsets.fromLTRB(30.0, 0.0, 40.0, 0.0),
-            child: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  text: "文章",
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        appBar: AppBar(
+            title: Stack(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TabBar(
+                    tabs: <Widget>[
+                      Tab(
+                        text: "文章",
+                      ),
+                      Tab(
+                        text: "置顶",
+                      ),
+                    ],
+                  ),
                 ),
-                Tab(
-                  text: "置顶",
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                  ),
                 ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) {
+                      return SearchPage();
+                    }));
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(Icons.search),
+                    ),
+                  ),
+                )
               ],
             ),
-          )),
-          drawer: Drawer(
-            child: MainDrawer(),
-          ),
-          body: TabBarView(
-            children: <Widget>[ArticlePage(), TopArticlePage()],
-          ),
+          ],
+        )),
+        drawer: Drawer(
+          child: MainDrawer(),
+        ),
+        body: TabBarView(
+          children: <Widget>[ArticlePage(), TopArticlePage()],
         ),
       ),
     );

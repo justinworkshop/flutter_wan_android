@@ -81,7 +81,7 @@ class _MainDrawerState extends State<MainDrawer> {
           ),
         ),
 
-        /// 搜索
+        /// 设置
         Offstage(
           offstage: false,
           child: InkWell(
@@ -89,9 +89,9 @@ class _MainDrawerState extends State<MainDrawer> {
               _itemClick(SearchPage());
             },
             child: ListTile(
-              leading: Icon(Icons.search),
+              leading: Icon(Icons.settings),
               title: Text(
-                "搜索",
+                "设置",
                 style: TextStyle(fontSize: 16.0),
               ),
             ),
