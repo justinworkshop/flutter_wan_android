@@ -98,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
             child: new RefreshIndicator(
                 child: ListView.builder(
                   controller: _controller,
-                  itemCount: articles.length, // +1是banner
+                  itemCount: articles.length,
                   itemBuilder: (context, i) => _buildItem(i),
                 ),
                 onRefresh: _pullToRefresh),
