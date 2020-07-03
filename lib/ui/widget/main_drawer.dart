@@ -3,6 +3,7 @@ import 'package:flutterwanandroid/event/event_login.dart';
 import 'package:flutterwanandroid/http/api.dart';
 import 'package:flutterwanandroid/manager/app_manager.dart';
 import 'package:flutterwanandroid/ui/page/page_collect.dart';
+import 'package:flutterwanandroid/ui/page/page_develop.dart';
 import 'package:flutterwanandroid/ui/page/page_login.dart';
 import 'package:flutterwanandroid/ui/page/page_search.dart';
 
@@ -74,8 +75,9 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
           ),
         ),
+
         Padding(
-          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 8.0),
+          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
           child: Divider(
             color: Colors.grey,
           ),
@@ -99,7 +101,31 @@ class _MainDrawerState extends State<MainDrawer> {
         ),
 
         Padding(
-          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 8.0),
+          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
+          child: Divider(
+            color: Colors.grey,
+          ),
+        ),
+
+        /// 开发者模式
+        Offstage(
+          offstage: false,
+          child: InkWell(
+            onTap: () {
+              _itemClick(DevelopPage());
+            },
+            child: ListTile(
+              leading: Icon(Icons.developer_mode),
+              title: Text(
+                "开发者模式",
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+          ),
+        ),
+
+        Padding(
+          padding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
           child: Divider(
             color: Colors.grey,
           ),
